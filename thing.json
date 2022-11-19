@@ -1,0 +1,10 @@
+{
+  "key": "value",
+  "numKey": 5,
+  "boolKey": true,
+  "hashKey": {
+    "key": "valu",
+    "numKey": 5
+  },
+  "arrayKey": [1,2,3,4,5]
+  }
