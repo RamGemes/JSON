@@ -1,17 +1,18 @@
+//THIS LIBRARY WAS WRITTEN BY RAMGAMES
 package ramgames.json;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class JSONArray implements JSONObject {
+public class JSONArray {
     private final HashMap<Integer, Integer> int_array;
     private final HashMap<Integer,String> string_array;
     private final HashMap<Integer,Double> double_array;
     private final HashMap<Integer,Boolean> boolean_array;
     private final HashMap<Integer,JSONHash> hash_array;
     private final HashMap<Integer,JSONArray> array_array;
-    int index = 0;
+    private int index = 0;
     public JSONArray() {
         this.int_array = new HashMap<>();
         this.double_array = new HashMap<>();
@@ -109,7 +110,6 @@ public class JSONArray implements JSONObject {
                     array_array.remove(k);
                 }
             }
-
         }
     }
     void overwrite(int i, int v) {
@@ -136,7 +136,6 @@ public class JSONArray implements JSONObject {
         removeNoReorder(i);
         put(v);
     }
-
     public int queryInt(int k) {
         if(int_array.containsKey(k)) {
             return int_array.get(k);
@@ -181,33 +180,34 @@ public class JSONArray implements JSONObject {
     }
     @Override
     public String toString() {
-        System.out.println(index);
         StringBuilder builder = new StringBuilder("[");
         for(var i = 0; i < index;i++) {
             if (int_array.get(i) != null) {
-                builder.append(String.format("%d:%s,",i,queryInt(i)));
+                builder.append(String.format("%s,",queryInt(i)));
             }
             if (string_array.get(i) != null) {
-                builder.append(String.format("%d:%s,",i,queryString(i)));
+                builder.append(String.format("%s%s%s,",'"',string_array.get(i),'"'));
             }
             if (boolean_array.get(i) != null) {
-                builder.append(String.format("%d:%s,",i,queryBoolean(i)));
+                builder.append(String.format("%s,",queryBoolean(i)));
             }
             if (double_array.get(i) != null) {
-                builder.append(String.format("%d:%s,",i,queryDouble(i)));
+                builder.append(String.format("%s,",queryDouble(i)));
             }
             if (hash_array.get(i) != null) {
-                builder.append(String.format("%d:%s,",i,queryHash(i)));
+                builder.append(String.format("%s,",queryHash(i)));
             }
             if (array_array.get(i) != null) {
-                builder.append(String.format("%d:%s,",i,queryArray(i)));
+                builder.append(String.format("%s,",queryArray(i)));
             }
         }
         if(index != 0) {
             builder.deleteCharAt(builder.length()-1);
         }
-        builder.append('}');
+        builder.append(']');
         return builder.toString();
     }
-
+    int size() {
+        return index;
+    }
 }

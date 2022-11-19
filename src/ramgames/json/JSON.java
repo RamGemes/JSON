@@ -1,3 +1,4 @@
+//THIS LIBRARY WAS WRITTEN BY RAMGAMES
 package ramgames.json;
 
 
@@ -8,7 +9,6 @@ import java.util.Scanner;
 
 public interface JSON {
     private static JSONHash genJsonHash(String[] stringlets) {
-        System.out.println(Arrays.toString(stringlets));
         JSONHash object = new JSONHash();
         boolean isQuoting = false;
         StringBuilder value = new StringBuilder();
@@ -17,159 +17,61 @@ public interface JSON {
         boolean arraying = false;
         int skipmany = 0;
         int indention_level = -1;
-        for(var i = 0; i < stringlets.length;i++) {
-            String stringlet = stringlets[i];
-            for(var ii = 0; ii < stringlet.length();ii++) {
-                char charcoal = stringlet.charAt(ii);
-                if(skipmany <= 0) {
-                    if(hashing) {
-                        switch(charcoal) {
+        for (String stringlet : stringlets) {
+            for (char charcoal: stringlet.toCharArray()) {
+                if (skipmany <= 0) {
+                    if (hashing) {
+                        switch (charcoal) {
                             case '{' -> indention_level++;
                             case '}' -> indention_level--;
                             default -> value.append(charcoal);
                         }
-                        if(indention_level == 0) {
-                            object.put(keyHolder, genJsonHash(new String[]{value.toString()+','}));
+                        if (indention_level == 0) {
+                            object.put(keyHolder, genJsonHash(new String[]{value.toString() + ','}));
                             hashing = false;
                             value = new StringBuilder();
-                            //keyHolder = "";
                             skipmany++;
                         }
-                        System.out.printf("{%d,%d} -%s\n",i,ii,value);
                     } else {
-                       if(arraying) {
-                           switch(charcoal) {
-                               case '[' -> indention_level++;
-                               case ']' -> indention_level--;
-                               default -> value.append(charcoal);
-                           }
-                           if(indention_level == 0) {
-                               object.put(keyHolder,genJsonArray(new String[]{value.toString()+','}));
-                               arraying = false;
-                               skipmany++;
-                           }
-                           System.out.printf("{%d,%d} -%s\n",i,ii,value);
-                       } else {
-                           System.out.printf("{%d,%d} -%s\n",i,ii,charcoal);
-                           switch(charcoal) {
-                               case ' ' -> {
-                                   if(isQuoting) {
-                                       value.append(charcoal);
-                                   }
-                               }
-                               case '{' -> {
-                                   if(indention_level == 0) {
-                                       hashing = true;
-                                   }
-                                   indention_level++;
-
-
-                               }
-                               case '[' ->{
-                                   indention_level++;
-                                   arraying = true;
-                               }
-                               case ',' -> {
-                                   if(!isQuoting) {
-                                       String valu = value.toString();
-                                       BaseMethods.addValue(object, keyHolder, valu);
-                                       value = new StringBuilder();
-                                   }
-                               }
-                               case ':' -> {
-                                   if(!isQuoting) {
-                                       keyHolder = value.toString();
-                                       value = new StringBuilder();
-                                   }
-                               }
-                               case '"' -> isQuoting = !isQuoting;
-                               default -> value.append(charcoal);
-                           }
-                       }
-                    }
-                } else {
-                    skipmany--;
-                }
-            }
-        }
-        return object;
-    }
-    static JSONHash getJSON(File file) {
-        if(!file.getName().endsWith(".json")) {
-            throw new IncorrectFileException("file provided isn't .json");
-        }
-        String[] lines = BaseMethods.fileToString(file);
-        return genJsonHash(lines);
-    }
-    private static JSONArray genJsonArray(String[] stringlets) {
-        JSONArray object = new JSONArray();
-        boolean isQuoting = false;
-        StringBuilder value = new StringBuilder();
-        boolean hashing = false;
-        boolean arraying = false;
-        int skipmany = 0;
-        int indention_level = -1;
-        for(var i = 0; i < stringlets.length;i++) {
-            String stringlet = stringlets[i];
-            for(var ii = 0; ii < stringlet.length();ii++) {
-                char charcoal = stringlet.charAt(ii);
-                if(skipmany <= 0) {
-                    if(hashing) {
-                        switch(charcoal) {
-                            case '{' -> indention_level++;
-                            case '}' -> indention_level--;
-                            default -> value.append(charcoal);
-                        }
-                        if(indention_level == 0) {
-                            object.put(genJsonHash(new String[]{value.toString()+','}));
-                            hashing = false;
-                            value = new StringBuilder();
-                            //keyHolder = "";
-                            skipmany++;
-                        }
-                        System.out.printf("{%d,%d} -%s\n",i,ii,value);
-                    } else {
-                        if(arraying) {
-                            switch(charcoal) {
+                        if (arraying) {
+                            switch (charcoal) {
                                 case '[' -> indention_level++;
                                 case ']' -> indention_level--;
                                 default -> value.append(charcoal);
                             }
-                            if(indention_level == 0) {
-                                object.put(genJsonArray(new String[]{value.toString()+','}));
+                            if (indention_level == 0) {
+                                object.put(keyHolder, genJsonArray(new String[]{value.toString() + ','}));
                                 arraying = false;
-                                //skipmany++;
+                                value = new StringBuilder();
+                                skipmany++;
                             }
-                            System.out.printf("{%d,%d} -%s\n",i,ii,value);
                         } else {
-                            System.out.printf("{%d,%d} -%s\n",i,ii,charcoal);
-                            switch(charcoal) {
+                            switch (charcoal) {
                                 case ' ' -> {
-                                    if(isQuoting) {
+                                    if (isQuoting) {
                                         value.append(charcoal);
                                     }
                                 }
                                 case '{' -> {
-                                    if(indention_level == 0) {
+                                    if (indention_level == 0) {
                                         hashing = true;
                                     }
                                     indention_level++;
-
-
                                 }
-                                case '[' ->{
+                                case '[' -> {
                                     indention_level++;
                                     arraying = true;
                                 }
                                 case ',' -> {
-                                    if(!isQuoting) {
+                                    if (!isQuoting) {
                                         String valu = value.toString();
-                                        BaseMethods.addValue(object, valu);
+                                        addValue(object, keyHolder, valu);
                                         value = new StringBuilder();
                                     }
                                 }
                                 case ':' -> {
-                                    if(!isQuoting) {
+                                    if (!isQuoting) {
+                                        keyHolder = value.toString();
                                         value = new StringBuilder();
                                     }
                                 }
@@ -185,10 +87,90 @@ public interface JSON {
         }
         return object;
     }
-
-    interface BaseMethods {
-
-         static JSONHash addValue(JSONHash object, String key, String value) {
+    static JSONHash getJSON(File file) {
+        if(!file.getName().endsWith(".json")) {
+            throw new IncorrectFileException("file provided isn't .json");
+        }
+        String[] lines = fileToString(file);
+        return genJsonHash(lines);
+    }
+    private static JSONArray genJsonArray(String[] stringlets) {
+        JSONArray object = new JSONArray();
+        boolean isQuoting = false;
+        StringBuilder value = new StringBuilder();
+        boolean hashing = false;
+        boolean arraying = false;
+        int skipmany = 0;
+        int indention_level = -1;
+        for (String stringlet : stringlets) {
+            for (char charcoal: stringlet.toCharArray()) {
+                if (skipmany <= 0) {
+                    if (hashing) {
+                        switch (charcoal) {
+                            case '{' -> indention_level++;
+                            case '}' -> indention_level--;
+                            default -> value.append(charcoal);
+                        }
+                        if (indention_level == 0) {
+                            object.put(genJsonHash(new String[]{value.toString() + ','}));
+                            hashing = false;
+                            value = new StringBuilder();
+                            skipmany++;
+                        }
+                    } else {
+                        if (arraying) {
+                            switch (charcoal) {
+                                case '[' -> indention_level++;
+                                case ']' -> indention_level--;
+                                default -> value.append(charcoal);
+                            }
+                            if (indention_level == 0) {
+                                object.put(genJsonArray(new String[]{value.toString() + ','}));
+                                arraying = false;
+                                //skipmany++;
+                            }
+                        } else {
+                            switch (charcoal) {
+                                case ' ' -> {
+                                    if (isQuoting) {
+                                        value.append(charcoal);
+                                    }
+                                }
+                                case '{' -> {
+                                    if (indention_level == 0) {
+                                        hashing = true;
+                                    }
+                                    indention_level++;
+                                }
+                                case '[' -> {
+                                    indention_level++;
+                                    arraying = true;
+                                }
+                                case ',' -> {
+                                    if (!isQuoting) {
+                                        String valu = value.toString();
+                                        addValue(object, valu);
+                                        value = new StringBuilder();
+                                    }
+                                }
+                                case ':' -> {
+                                    if (!isQuoting) {
+                                        value = new StringBuilder();
+                                    }
+                                }
+                                case '"' -> isQuoting = !isQuoting;
+                                default -> value.append(charcoal);
+                            }
+                        }
+                    }
+                } else {
+                    skipmany--;
+                }
+            }
+        }
+        return object;
+    }
+         private static JSONHash addValue(JSONHash object, String key, String value) {
              try {
                  object.put(key,Integer.parseInt(value));
              } catch (NumberFormatException e) {
@@ -204,8 +186,7 @@ public interface JSON {
              }
              return object;
          }
-
-         static JSONArray addValue(JSONArray object, String value) {
+        private static JSONArray addValue(JSONArray object, String value) {
             try {
                 object.put(Integer.parseInt(value));
             } catch (NumberFormatException e) {
@@ -221,8 +202,7 @@ public interface JSON {
             }
             return object;
         }
-
-        static String[] fileToString(File file){
+        private static String[] fileToString(File file){
             Scanner sc;
             try {
                 sc = new Scanner(file);
@@ -243,7 +223,7 @@ public interface JSON {
             }
             return stringlet;
         }
-        static String removeRedundantSpaces(String string) {
+        private static String removeRedundantSpaces(String string) {
             if(string.equals("")) {return "";}
             char[] stringlet = new char[string.length()];
             for(var i = 0; i < string.length();i++) {
@@ -260,8 +240,8 @@ public interface JSON {
                             if(stringlet[i+1] != ' '){isfirst=false;
                             }}
                         else{
-                            if(isfirst) {stringlet = new char[]{' '};}else{
-                                if(stringlet[i+1] == ' '){stringlet[i] = spacer;length -= 1;}}}}}} else {if(i == 0) {isfirst = false;//print("stopped first search");
+                            if(stringlet[i+1] == ' '){stringlet[i] = spacer;length -= 1;}
+                        }}}} else {if(i == 0) {isfirst = false;//print("stopped first search");
                 }}
             }
             if (stringlet[stringlet.length-1] == ' ') {stringlet[stringlet.length-1] = '`';length -=1  ;}
@@ -273,20 +253,7 @@ public interface JSON {
             if(stringl.toString().equals(" ")) {return "";}
             return stringl.toString();
         }
-        static String everythingBefore(String string, int index,boolean quoteCare) {
-            StringBuilder stringl = new StringBuilder("");
-            for(var i = 0; i < string.length();i++) {if(i < index) {
-                if(quoteCare && isEven(countOfChar(everythingBefore(string,'"',false),'"'),true)) {
-                    stringl.append(string.charAt(i));
-                }
-                if(!quoteCare) {
-                    stringl.append(string.charAt(i));}}}
-            return stringl.toString();
-        }
-        static String everythingBefore(String string, int index) {
-            return everythingBefore(string,index,false);
-        }
-        static String[] removeNulls(String[] stringlets) {
+        private static String[] removeNulls(String[] stringlets) {
             int indexer = 0;
             for (String stringx:stringlets) {
                 if(stringx != null) {indexer+=1;}
@@ -298,29 +265,4 @@ public interface JSON {
             }
             return stringls;
         }
-        static int countOfChar(String string, char letter,boolean quoteCare) {
-            int count = 0;
-            char lettar;
-            for(var i = 0; i < string.length();i++) {
-                lettar = string.charAt(i);
-                if(quoteCare) {
-                    if(lettar == letter && isEven(countOfChar(everythingBefore(string,i),'"',false),true)) {
-                        count += 1;
-                    }
-                } else {
-                    if (lettar == letter) {
-                        count += 1;
-                    }
-                }
-            }
-            return count;
-        }
-        static int countOfChar(String string, char letter) {
-            return countOfChar(string,letter,false);
-        }
-        static boolean isEven(int num,boolean countzero) {
-            if(num == 0 && countzero) {return true;}
-            return (float) num / 2 == Math.round((float) num / 2) && num != 0;
-        }
-    }
 }
