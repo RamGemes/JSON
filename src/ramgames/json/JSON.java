@@ -4,7 +4,7 @@ package ramgames.json;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public interface JSON {
@@ -24,26 +24,28 @@ public interface JSON {
                         switch (charcoal) {
                             case '{' -> indention_level++;
                             case '}' -> indention_level--;
-                            default -> value.append(charcoal);
                         }
                         if (indention_level == 0) {
-                            object.put(keyHolder, genJsonHash(new String[]{value.toString() + ','}));
+                            object.put(keyHolder, genJsonHash(new String[]{'{'+value.toString() + ','}));
                             hashing = false;
                             value = new StringBuilder();
                             skipmany++;
+                        } else {
+                            value.append(charcoal);
                         }
                     } else {
                         if (arraying) {
                             switch (charcoal) {
                                 case '[' -> indention_level++;
                                 case ']' -> indention_level--;
-                                default -> value.append(charcoal);
                             }
                             if (indention_level == 0) {
                                 object.put(keyHolder, genJsonArray(new String[]{value.toString() + ','}));
                                 arraying = false;
                                 value = new StringBuilder();
                                 skipmany++;
+                            } else {
+                                value.append(charcoal);
                             }
                         } else {
                             switch (charcoal) {
@@ -265,4 +267,5 @@ public interface JSON {
             }
             return stringls;
         }
+
 }

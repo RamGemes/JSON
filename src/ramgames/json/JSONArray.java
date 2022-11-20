@@ -21,31 +21,31 @@ public class JSONArray {
         this.hash_array = new HashMap<>();
         this.array_array = new HashMap<>();
     }
-    void put(int v) {
+    public void put(int v) {
         this.int_array.put(index,v);
         index ++;
     }
-    void put(double v) {
+    public void put(double v) {
         this.double_array.put(index,v);
         index ++;
     }
-    void put(String v) {
+    public void put(String v) {
         this.string_array.put(index,v);
         index ++;
     }
-    void put(boolean v) {
+    public void put(boolean v) {
         this.boolean_array.put(index,v);
         index ++;
     }
-    void put(JSONHash v) {
+    public void put(JSONHash v) {
         this.hash_array.put(index,v);
         index ++;
     }
-    void put(JSONArray v) {
+    public void put(JSONArray v) {
         this.array_array.put(index,v);
         index ++;
     }
-    void remove(int k) {
+    public void remove(int k) {
         removeNoReorder(k);
         reorder();
     }
@@ -61,7 +61,7 @@ public class JSONArray {
             array_array.remove(k);
         }
     }
-    void reorder() {
+    private void reorder() {
         List<Integer> taggers = new ArrayList<>();
         taggers.addAll(int_array.keySet());
         taggers.addAll(double_array.keySet());
@@ -112,27 +112,27 @@ public class JSONArray {
             }
         }
     }
-    void overwrite(int i, int v) {
+    public void overwrite(int i, int v) {
         removeNoReorder(i);
         put(v);
     }
-    void overwrite(int i, double v) {
+    public void overwrite(int i, double v) {
         removeNoReorder(i);
         put(v);
     }
-    void overwrite(int i, boolean v) {
+    public void overwrite(int i, boolean v) {
         removeNoReorder(i);
         put(v);
     }
-    void overwrite(int i, String v) {
+    public void overwrite(int i, String v) {
         removeNoReorder(i);
         put(v);
     }
-    void overwrite(int i, JSONHash v) {
+    public void overwrite(int i, JSONHash v) {
         removeNoReorder(i);
         put(v);
     }
-    void overwrite(int i, JSONArray v) {
+    public void overwrite(int i, JSONArray v) {
         removeNoReorder(i);
         put(v);
     }
@@ -207,7 +207,7 @@ public class JSONArray {
         builder.append(']');
         return builder.toString();
     }
-    int size() {
+    public int size() {
         return index;
     }
 }

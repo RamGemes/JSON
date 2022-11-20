@@ -23,7 +23,7 @@ public class JSONHash {
         this.array_array = new HashMap<>();
         this.tags = new ArrayList<>();
     }
-    void put(String k, int v) {
+    public void put(String k, int v) {
         if(tags.contains(k)) {
             throw new KeyAlreadyExistsException(String.format("key value '%s' already exists in the given hash",k));
         } else {
@@ -32,7 +32,7 @@ public class JSONHash {
         }
 
     }
-    void put(String k, double v) {
+    public void put(String k, double v) {
         if(tags.contains(k)) {
             throw new KeyAlreadyExistsException(String.format("key value '%s' already exists in the given hash",k));
         } else {
@@ -40,7 +40,7 @@ public class JSONHash {
             this.double_array.put(k,v);
         }
     }
-    void put(String k, String v) {
+    public void put(String k, String v) {
         if(tags.contains(k)) {
             throw new KeyAlreadyExistsException(String.format("key value '%s' already exists in the given hash",k));
         } else {
@@ -48,7 +48,7 @@ public class JSONHash {
             this.string_array.put(k,v);
         }
     }
-    void put(String k, boolean v) {
+    public void put(String k, boolean v) {
         if(tags.contains(k)) {
             throw new KeyAlreadyExistsException(String.format("key value '%s' already exists in the given hash",k));
         } else {
@@ -56,7 +56,7 @@ public class JSONHash {
             this.boolean_array.put(k,v);
         }
     }
-    void put(String k, JSONHash v) {
+    public void put(String k, JSONHash v) {
         if(tags.contains(k)) {
             throw new KeyAlreadyExistsException(String.format("key value '%s' already exists in the given hash",k));
         } else {
@@ -64,7 +64,7 @@ public class JSONHash {
             this.hash_array.put(k,v);
         }
     }
-    void put(String k, JSONArray v) {
+    public void put(String k, JSONArray v) {
         if(tags.contains(k)) {
             throw new KeyAlreadyExistsException(String.format("key value '%s' already exists in the given hash",k));
         } else {
@@ -73,7 +73,7 @@ public class JSONHash {
         }
     }
 
-    void remove(String k) {
+    public void remove(String k) {
         if(!tags.contains(k)) {
             throw new UnknownKeyException(String.format("key value '%s' doesn't exist in the given hash",k));
         } else {
@@ -85,7 +85,7 @@ public class JSONHash {
             array_array.remove(k);
         }
     }
-    boolean containsKey(String k) {
+    public boolean containsKey(String k) {
         return tags.contains(k);
     }
 
@@ -118,47 +118,49 @@ public class JSONHash {
         builder.append('}');
         return builder.toString();
     }
-    int queryInt(String k) {
+    public int queryInt(String k) {
         if(int_array.containsKey(k)) {
             return int_array.get(k);
         } else {
             throw new UnknownKeyException(String.format("given hash doesn't contain key '%s'",k));
         }
     }
-    String queryString(String k) {
+    public String queryString(String k) {
         if(string_array.containsKey(k)) {
             return string_array.get(k);
         } else {
             throw new UnknownKeyException(String.format("given hash doesn't contain key '%s'",k));
         }
     }
-    double queryDouble(String k) {
+    public double queryDouble(String k) {
         if(double_array.containsKey(k)) {
             return double_array.get(k);
         } else {
             throw new UnknownKeyException(String.format("given hash doesn't contain key '%s'",k));
         }
     }
-    boolean queryBoolean(String k) {
+    public boolean queryBoolean(String k) {
         if(boolean_array.containsKey(k)) {
             return boolean_array.get(k);
         } else {
             throw new UnknownKeyException(String.format("given hash doesn't contain key '%s'",k));
         }
     }
-    JSONHash queryHash(String k) {
+    public JSONHash queryHash(String k) {
         if(hash_array.containsKey(k)) {
             return hash_array.get(k);
         } else {
             throw new UnknownKeyException(String.format("given hash doesn't contain key '%s'",k));
         }
     }
-    JSONArray queryArray(String k) {
+    public JSONArray queryArray(String k) {
         if(array_array.containsKey(k)) {
             return array_array.get(k);
         } else {
             throw new UnknownKeyException(String.format("given hash doesn't contain key '%s'",k));
         }
     }
-
+    public List<String> keyList() {
+        return this.tags;
+    }
 }
