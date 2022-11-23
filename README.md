@@ -15,4 +15,4 @@ This project is under the MIT license
 
 ## How to Use
 
-to start, make sure you have downloaded the newest release of the library, which can be found in the "releases" under the "About" section.
+to start, make sure you have downloaded the newest release of the library, which can be found in the "releases" under the "about" section. The wiki contains all infomation needed for the methods and classes.
